@@ -24,16 +24,18 @@ paths:
       parameters:
         - in: body
           name: body
-          description: Created user object
+          description: Comment to add
           required: true
           schema:
-            type: string
+            $ref: '#/definitions/Comment'
       responses:
         '201':
           description: successful operation
           headers:
             Location:
               type: string
+        '400':
+          description: the received object does not correspond to the expected resource
     get:
       tags:
         - comments
@@ -48,7 +50,7 @@ paths:
           schema:
             type: array
             items:
-              type: string
+              $ref: '#/definitions/Comment'
   '/comments/{id]':
     get:
       tags:
@@ -69,9 +71,7 @@ paths:
         '200':
           description: successful operation
           schema:
-            type: array
-            items:
-              $ref: '#/definitions/Comment'
+            $ref: '#/definitions/Comment'
         '404':
           description: Comment not found
 definitions:

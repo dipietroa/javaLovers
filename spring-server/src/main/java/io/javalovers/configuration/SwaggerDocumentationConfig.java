@@ -1,5 +1,7 @@
 package io.javalovers.configuration;
 
+import io.javalovers.service.CommentService;
+import io.javalovers.service.CommentServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -28,10 +30,15 @@ public class SwaggerDocumentationConfig {
     }
 
     @Bean
+    public CommentService commentService() {
+        return new CommentServiceImpl();
+    }
+
+    @Bean
     public Docket customImplementation(){
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                    .apis(RequestHandlerSelectors.basePackage("io.swagger.api"))
+                    .apis(RequestHandlerSelectors.basePackage("io.javalovers.api"))
                     .build()
                 .directModelSubstitute(org.threeten.bp.LocalDate.class, java.sql.Date.class)
                 .directModelSubstitute(org.threeten.bp.OffsetDateTime.class, java.util.Date.class)
