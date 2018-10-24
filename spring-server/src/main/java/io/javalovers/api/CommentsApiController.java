@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import javax.validation.Valid;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -43,7 +45,16 @@ public class CommentsApiController implements CommentsApi {
 
     public ResponseEntity<Void> addComment(@ApiParam(value = "Comment to add" ,required=true )  @Valid @RequestBody Comment body) {
         String accept = request.getHeader("Accept");
-        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
+        if (accept != null && accept.contains("application/json")) {
+            commentService.addComment(CommentMapper.INSTANCE.commentToCommentEntity(body));
+            try {
+                return ResponseEntity.created(new URI("test")).build();
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return new ResponseEntity<Void>(HttpStatus.UNSUPPORTED_MEDIA_TYPE);
     }
 
     public ResponseEntity<Comment> getCommentById(@ApiParam(value = "The comment that needs to be fetched.",required=true) @PathVariable("id") Long id) {
@@ -53,11 +64,11 @@ public class CommentsApiController implements CommentsApi {
             if(comment == null) {
                 return new ResponseEntity<Comment>(HttpStatus.NOT_FOUND);
             } else {
-                return new ResponseEntity<Comment>(HttpStatus.OK);
+                return ResponseEntity.ok(CommentMapper.INSTANCE.commentEntityToComment(comment));
             }
         }
 
-        return new ResponseEntity<Comment>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<Comment>(HttpStatus.UNSUPPORTED_MEDIA_TYPE);
     }
 
     public ResponseEntity<List<Comment>> getComments() {
@@ -68,9 +79,9 @@ public class CommentsApiController implements CommentsApi {
                                                     .map(c -> CommentMapper.INSTANCE.commentEntityToComment(c))
                                                     .collect(Collectors.toList());
             return ResponseEntity.ok(comments);
-        } else {
-            return new ResponseEntity<List<Comment>>(HttpStatus.UNSUPPORTED_MEDIA_TYPE);
         }
+
+        return new ResponseEntity<List<Comment>>(HttpStatus.UNSUPPORTED_MEDIA_TYPE);
     }
 
 }

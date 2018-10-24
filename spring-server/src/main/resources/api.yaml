@@ -51,7 +51,7 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Comment'
-  '/comments/{id]':
+  '/comments/{id}':
     get:
       tags:
         - comments
