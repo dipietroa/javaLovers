@@ -1,0 +1,89 @@
+swagger: '2.0'
+info:
+  description: API REST JavaLovers
+  version: 1.0.0
+  title: Specs of API JavaLovers
+host: 'localhost:8080'
+basePath: /
+tags:
+  - name: comments
+    description: Operations about comments
+schemes:
+  - http
+  - https
+paths:
+  /comments:
+    post:
+      tags:
+        - comments
+      summary: add a new comment
+      description: add a new comment to the list of comments
+      operationId: addComment
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Created user object
+          required: true
+          schema:
+            type: string
+      responses:
+        '201':
+          description: successful operation
+          headers:
+            Location:
+              type: string
+    get:
+      tags:
+        - comments
+      summary: Get all comments
+      description: Get the list of all visitor's comments
+      operationId: getComments
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              type: string
+  '/comments/{id]':
+    get:
+      tags:
+        - comments
+      summary: Get single comment
+      description: Get a single comment (by ID)
+      operationId: getCommentById
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: 'The comment that needs to be fetched.'
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Comment'
+        '404':
+          description: Comment not found
+definitions:
+  Comment:
+    type: object
+    properties:
+      name:
+        type: string
+        minLength: 3
+      text:
+        type: string
+        maxLength: 300
+    required:
+      - text
+      - name

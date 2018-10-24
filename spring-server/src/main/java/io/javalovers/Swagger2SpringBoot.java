@@ -1,4 +1,4 @@
-package io.swagger;
+package io.javalovers;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.ExitCodeGenerator;
