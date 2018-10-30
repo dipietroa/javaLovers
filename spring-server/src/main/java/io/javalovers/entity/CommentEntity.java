@@ -32,7 +32,7 @@ public class CommentEntity {
     }
 
     public String getName() {
-        return this.name;
+        return name;
     }
 
     public void setName(String name) {
@@ -40,14 +40,14 @@ public class CommentEntity {
     }
 
     public String getComment() {
-        return this.comment;
+        return comment;
     }
 
     public void setComment(String comment) {
         this.comment = comment;
     }
 
-    public OffsetDateTime getDateTime() { return this.dateTime; }
+    public OffsetDateTime getDateTime() { return dateTime; }
 
     public void setDateTime(OffsetDateTime dateTime) { this.dateTime = dateTime; }
 }
