@@ -2,6 +2,7 @@ package io.javalovers.entity;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.threeten.bp.OffsetDateTime;
 
 
 /**
@@ -20,6 +21,8 @@ public class CommentEntity {
 
     private String comment;
 
+    private OffsetDateTime dateTime;
+
     public long getId() {
         return id;
     }
@@ -29,7 +32,7 @@ public class CommentEntity {
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public void setName(String name) {
@@ -37,10 +40,14 @@ public class CommentEntity {
     }
 
     public String getComment() {
-        return comment;
+        return this.comment;
     }
 
     public void setComment(String comment) {
         this.comment = comment;
     }
+
+    public OffsetDateTime getDateTime() { return this.dateTime; }
+
+    public void setDateTime(OffsetDateTime dateTime) { this.dateTime = dateTime; }
 }

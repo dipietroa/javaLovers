@@ -14,10 +14,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.threeten.bp.OffsetDateTime;
 
 import javax.validation.Valid;
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -46,6 +47,7 @@ public class CommentsApiController implements CommentsApi {
     public ResponseEntity<Void> addComment(@ApiParam(value = "Comment to add" ,required=true )  @Valid @RequestBody Comment body) {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
+            body.setDate(OffsetDateTime.now());
             commentService.addComment(CommentMapper.INSTANCE.commentToCommentEntity(body));
             try {
                 return ResponseEntity.created(new URI("test")).build();

@@ -12,10 +12,12 @@ public interface CommentMapper {
     CommentMapper INSTANCE = Mappers.getMapper(CommentMapper.class);
 
     @Mappings({ @Mapping(target = "text", source = "entity.comment"),
-            @Mapping(target = "name", source = "entity.name") })
+            @Mapping(target = "name", source = "entity.name"),
+            @Mapping(target = "date", source = "entity.dateTime")})
     Comment commentEntityToComment(CommentEntity entity);
 
     @Mappings({ @Mapping(target = "comment", source = "entity.text"),
-            @Mapping(target = "name", source = "entity.name") })
+            @Mapping(target = "name", source = "entity.name"),
+            @Mapping(target = "dateTime", source = "entity.date")})
     CommentEntity commentToCommentEntity(Comment entity);
 }
