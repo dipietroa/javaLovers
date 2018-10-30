@@ -48,9 +48,15 @@ public class CommentsApiController implements CommentsApi {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             body.setDate(OffsetDateTime.now());
-            commentService.addComment(CommentMapper.INSTANCE.commentToCommentEntity(body));
+            CommentEntity newComment = commentService.addComment(CommentMapper.INSTANCE.commentToCommentEntity(body));
+
+            if(newComment == null) {
+                // Probably a problem with the database (status offline f.ex)
+                return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+
             try {
-                return ResponseEntity.created(new URI("test")).build();
+                return ResponseEntity.created(new URI("/comments/" + newComment.getId())).build();
             } catch (URISyntaxException e) {
                 e.printStackTrace();
             }

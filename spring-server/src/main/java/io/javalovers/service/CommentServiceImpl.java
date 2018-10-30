@@ -1,6 +1,7 @@
 package io.javalovers.service;
 
 import io.javalovers.entity.CommentEntity;
+import io.javalovers.exception.SequenceException;
 import io.javalovers.seq.SequenceDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -34,7 +35,11 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public CommentEntity addComment(CommentEntity comment) {
-        comment.setId(sequenceDao.getNextSequenceId(HOSTING_SEQ_KEY));
+        try {
+            comment.setId(sequenceDao.getNextSequenceId(HOSTING_SEQ_KEY));
+        } catch (SequenceException e) {
+            return null;
+        }
         mongoTemplate.save(comment);
         return comment;
     }
