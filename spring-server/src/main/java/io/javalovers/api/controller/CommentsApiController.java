@@ -1,5 +1,6 @@
-package io.javalovers.api;
+package io.javalovers.api.controller;
 
+import io.javalovers.api.CommentsApi;
 import io.javalovers.entity.CommentEntity;
 import io.javalovers.mapper.CommentMapper;
 import io.javalovers.model.Comment;
@@ -14,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.threeten.bp.OffsetDateTime;
 
 import javax.validation.Valid;
@@ -23,8 +23,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.stream.Collectors;
-
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2018-10-24T16:40:41.784Z")
 
 @Controller
 public class CommentsApiController implements CommentsApi {
@@ -65,15 +63,28 @@ public class CommentsApiController implements CommentsApi {
         return new ResponseEntity<Void>(HttpStatus.NOT_ACCEPTABLE);
     }
 
+    @Override
+    public ResponseEntity<Void> deleteCommentById(@ApiParam(value = "The comment that has to be deleted. (id)",
+                                                                required=true) @PathVariable("id") Long id) {
+        String accept = request.getHeader("Accept");
+        if (accept != null && accept.contains("application/json")) {
+            CommentEntity comment = commentService.deleteCommentById(id);
+            if(comment == null)
+                return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+
+            return new ResponseEntity<Void>(HttpStatus.OK);
+        }
+
+        return new ResponseEntity<Void>(HttpStatus.NOT_ACCEPTABLE);
+    }
+
     public ResponseEntity<Comment> getCommentById(@ApiParam(value = "The comment that needs to be fetched.",required=true) @PathVariable("id") Long id) {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             CommentEntity comment = commentService.getCommentById(id);
-            if(comment == null) {
+            if(comment == null)
                 return new ResponseEntity<Comment>(HttpStatus.NOT_FOUND);
-            } else {
-                return ResponseEntity.ok(CommentMapper.INSTANCE.commentEntityToComment(comment));
-            }
+            return ResponseEntity.ok(CommentMapper.INSTANCE.commentEntityToComment(comment));
         }
 
         return new ResponseEntity<Comment>(HttpStatus.NOT_ACCEPTABLE);

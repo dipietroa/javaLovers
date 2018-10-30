@@ -12,6 +12,33 @@ schemes:
   - http
   - https
 paths:
+  /auth:
+    post:
+      tags:
+        - auth
+      summary: Authenticate an administrator.
+      description: Authenticate an administrator
+      operationId: authentication
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: authentication information
+          required: true
+          schema:
+            $ref: '#/definitions/Credentials'
+      responses:
+        '200':
+          description: OK - successful operation (Get JWT token header Authorization)
+          headers:
+            Authorization:
+              description: the generated JWT is transmitted in this header
+              type: string
+        '400':
+          description: BAD REQUEST - the received object is not of the expected type
+        '401':
+          description: UNAUTHORIZED - incorrect username or password
   /comments:
     post:
       tags:
@@ -74,6 +101,28 @@ paths:
             $ref: '#/definitions/Comment'
         '404':
           description: Comment not found
+    delete:
+      tags:
+        - comments
+      summary: Delete a comment
+      description: Delete a comment (by ID)
+      operationId: deleteCommentById
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: 'The comment that has to be deleted. (id)'
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: successful operation
+        '404':
+          description: Comment not found
+        '401':
+          description: Unauthorized
 definitions:
   Comment:
     type: object
@@ -92,3 +141,13 @@ definitions:
     required:
       - text
       - name
+  Credentials:
+    type: object
+    properties:
+      username:
+        type: string
+      password:
+        type: string
+    required:
+      - username
+      - password

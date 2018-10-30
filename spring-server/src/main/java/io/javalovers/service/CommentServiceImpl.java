@@ -29,6 +29,17 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    public CommentEntity deleteCommentById(Long id) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("id").is(id));
+        CommentEntity toDelete = mongoTemplate.findOne(query, CommentEntity.class);
+        if(toDelete == null)
+            return null;
+        mongoTemplate.remove(toDelete);
+        return toDelete;
+    }
+
+    @Override
     public List<CommentEntity> getCommentList() {
         return mongoTemplate.findAll(CommentEntity.class);
     }
