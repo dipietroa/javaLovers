@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
 public class CommentServiceImpl implements CommentService {
 
     private static final String HOSTING_SEQ_KEY = "hosting";

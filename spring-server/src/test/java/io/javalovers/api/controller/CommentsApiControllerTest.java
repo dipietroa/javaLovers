@@ -70,4 +70,18 @@ public class CommentsApiControllerTest {
         verify(commentService, times(1)).getCommentList();
         verifyNoMoreInteractions(commentService);
     }
+
+    /**
+     * Testing GET on /comments endpoint. Expected behaviour is to get a 406 status code when header
+     * Accept is not expected
+     *
+     * @throws Exception
+     */
+    @Test
+    public void test_get_comments_wrong_accept() throws Exception {
+        httpHeaders.add("Accept","application/xml");
+        commentEntities.add(commentEntity);
+        mockMvc.perform(get("/comments").headers(httpHeaders))
+                .andExpect(status().isNotAcceptable());
+    }
 }

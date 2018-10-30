@@ -56,7 +56,7 @@ public class CommentsApiController implements CommentsApi {
             }
         }
 
-        return new ResponseEntity<Void>(HttpStatus.UNSUPPORTED_MEDIA_TYPE);
+        return new ResponseEntity<Void>(HttpStatus.NOT_ACCEPTABLE);
     }
 
     public ResponseEntity<Comment> getCommentById(@ApiParam(value = "The comment that needs to be fetched.",required=true) @PathVariable("id") Long id) {
@@ -70,7 +70,7 @@ public class CommentsApiController implements CommentsApi {
             }
         }
 
-        return new ResponseEntity<Comment>(HttpStatus.UNSUPPORTED_MEDIA_TYPE);
+        return new ResponseEntity<Comment>(HttpStatus.NOT_ACCEPTABLE);
     }
 
     public ResponseEntity<List<Comment>> getComments() {
@@ -83,7 +83,7 @@ public class CommentsApiController implements CommentsApi {
             return ResponseEntity.ok(comments);
         }
 
-        return new ResponseEntity<List<Comment>>(HttpStatus.UNSUPPORTED_MEDIA_TYPE);
+        return new ResponseEntity<List<Comment>>(HttpStatus.NOT_ACCEPTABLE);
     }
 
 }
