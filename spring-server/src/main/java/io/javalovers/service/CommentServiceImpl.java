@@ -1,17 +1,25 @@
 package io.javalovers.service;
 
 import io.javalovers.entity.CommentEntity;
+import io.javalovers.seq.SequenceDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class CommentServiceImpl implements CommentService {
+
+    private static final String HOSTING_SEQ_KEY = "hosting";
 
     @Autowired
     private MongoTemplate mongoTemplate;
+
+    @Autowired
+    private SequenceDao sequenceDao;
 
     @Override
     public CommentEntity getCommentById(Long id) {
@@ -27,6 +35,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public CommentEntity addComment(CommentEntity comment) {
+        comment.setId(sequenceDao.getNextSequenceId(HOSTING_SEQ_KEY));
         mongoTemplate.save(comment);
         return comment;
     }
