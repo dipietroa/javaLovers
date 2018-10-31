@@ -7,14 +7,14 @@ import { MainPageComponent } from './main-page/main-page.component';
 import { AdminPageComponent } from './admin-page/admin-page.component';
 import { CommentsService } from './api/comments.service';
 import { HttpClientModule } from '@angular/common/http';
-import { MenuComponent } from './menu/menu.component';
+import { CardsComponent } from './cards/cards.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MainPageComponent,
     AdminPageComponent,
-    MenuComponent
+    CardsComponent
   ],
   imports: [
     BrowserModule,

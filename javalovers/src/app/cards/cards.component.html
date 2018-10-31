@@ -1,0 +1,9 @@
+<div class="row" style="margin-right: auto; margin-left: auto; padding-top: 10px;">
+  <div class="card text-white bg-dark mb-3" style="max-width: 40rem; min-width: 20rem; width: 100%" *ngFor="let comment of comments">
+    <div class="card-header">{{ displayDate(comment.date) }}</div>
+    <div class="card-body">
+      <h4 class="card-title">{{ comment.name }}</h4>
+      <p class="card-text">{{ comment.text }}</p>
+    </div>
+  </div>
+</div>

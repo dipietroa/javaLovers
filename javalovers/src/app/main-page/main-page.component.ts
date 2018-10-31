@@ -9,16 +9,11 @@ import { Comment } from '../model/comment'
 })
 export class MainPageComponent implements OnInit {
 
-  comments : Array<Comment>
 
-  constructor(private commentService : CommentsService) { }
+  constructor() { }
 
   ngOnInit() {
-    this.commentService.getComments().subscribe((res) => {
-      this.comments = res;
-    }, (err) => {
-      alert('Problem when connecting to the server -- status : ' + err.status)
-    })
+
   }
 
 }
