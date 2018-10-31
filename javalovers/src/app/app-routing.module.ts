@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes, Router } from '@angular/router';
 import { AdminPageComponent } from './admin-page/admin-page.component';
 import { MainPageComponent } from './main-page/main-page.component';
+import { CommentsService } from './api/comments.service';
 
 const routes: Routes = [
   { path: 'admin', component: AdminPageComponent },

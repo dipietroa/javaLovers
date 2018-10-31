@@ -1,3 +1,28 @@
-<p>
-  main-page works!
-</p>
+<header class="masthead text-center text-white">
+  <div class="masthead-content">
+    <div class="container">
+      <h1 class="masthead-heading mb-0">Why do we love <i class="fab fa-java"></i> ?</h1>
+      <h2 class="masthead-subheading mb-0"><i class="fas fa-arrow-down"></i></h2>
+      <a href="#test" class="btn btn-primary btn-xl rounded-pill mt-5 js-scroll-trigger">Learn More</a>
+    </div>
+  </div>
+  <div class="bg-circle-1 bg-circle"></div>
+  <div class="bg-circle-2 bg-circle"></div>
+  <div class="bg-circle-3 bg-circle"></div>
+  <div class="bg-circle-4 bg-circle"></div>
+</header>
+
+<section *ngFor="let comment of comments; index as i">
+  <div id="test" class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-6" *ngIf="i%2 === 1">
+      </div>
+      <div class="col-lg-6">
+        <div class="p-5">
+          <h2 class="display-4">{{ comment.name }}</h2>
+          <p>{{ comment.text }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
