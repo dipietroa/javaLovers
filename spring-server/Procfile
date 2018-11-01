@@ -1,0 +1,1 @@
+web: java Swagger2SpringBoot --server.port=$PORT -cp target/classes:target/dependency/*

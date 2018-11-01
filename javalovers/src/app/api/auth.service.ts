@@ -22,12 +22,13 @@ import { Credentials } from '../model/credentials';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../api-conf/variables';
 import { Configuration }                                     from '../api-conf/configuration';
+import { ApiConst } from '../api-conf/api-const';
 
 
 @Injectable()
 export class AuthService {
 
-    protected basePath = 'http://localhost:8080';
+    protected basePath = ApiConst.API_DOM;
     public defaultHeaders = new HttpHeaders();
     public configuration = new Configuration();
 
