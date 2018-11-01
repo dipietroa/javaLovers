@@ -50,7 +50,7 @@ export class CommentsFormComponent implements OnInit {
       this.commentForm.get("text").setValue("");
       this.isSending = false;
     }, (err) => {
-      alert('Problem occurs with the server -- status : ' + err.status);
+      alert('A problem occurred with the server -- status : ' + err.status);
       this.isSending = false;
     })
   }

@@ -3,3 +3,33 @@
   padding-left: 5px;
   margin: 0;
 }
+
+@-webkit-keyframes spin {
+  from {-webkit-transform:rotate(0deg);}
+  to {-webkit-transform:rotate(360deg);}
+}
+
+.loader {
+  background-color: rgba(0,0,0,0.5);
+  position:absolute;
+  left: 50%; 
+  top: 50%;
+  margin-top: -30px;
+  margin-left: -30px;
+  border: 10px solid #ffffff;
+  border-top: 10px solid #00ff2a;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  -webkit-animation: spin 1s linear infinite;
+  animation: spin 1s linear infinite;
+}
+
+.pcenter {
+  position:absolute;
+  left: 20%;
+  right: 20%;
+  top: 50%;
+  color: white;
+  font-size: 11px;
+}

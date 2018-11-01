@@ -15,6 +15,7 @@
       </div>
     </div>
   </div>
+
   <!-- pager -->
   <ul *ngIf="pager.pages && pager.pages.length > 1" class="pagination">
     <li class="page-item" [ngClass]="{disabled:pager.currentPage === 1}">
@@ -34,3 +35,6 @@
     </li>
   </ul>
 </div>
+
+<h1 class="loader" *ngIf="loading"></h1>
+<p class ="pcenter" *ngIf="nodata">the data recovery failed. Please retry the operation by refreshing the page</p>
