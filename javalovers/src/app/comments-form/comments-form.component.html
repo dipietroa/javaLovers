@@ -24,7 +24,7 @@
           [className]="commentForm.valid && !isSending ? 'btn btn-success btn-sm btn-margin' : 'btn btn-secondary btn-sm btn-margin'"
           [disabled]="!commentForm.valid || isSending" [attr.loading]="isSending? '' : null">
     <div *ngIf="isSending">
-      Saving <i class="fas fa-circle-notch fa-spin" style="color:white; font-size: 13px;"></i>
+      Saving <i class="fas fa-circle-notch fa-spin" style="color:black; font-size: 13px;"></i>
     </div>
     <div *ngIf="!isSending">
       Save

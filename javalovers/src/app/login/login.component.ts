@@ -45,7 +45,7 @@ export class LoginComponent implements OnInit {
       if(err.status === 401)
         this.curLog = 'Username or password invalid';
       else
-        alert('Problem occurs with the server -- status : ' + err.status);
+        alert('A problem occurred with the server -- status : ' + err.status);
     })
   }
 

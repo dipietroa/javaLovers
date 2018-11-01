@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { AuthConsts } from './login/consts/auth.consts';
+import { CookieHandler } from './login/utils/cookie-handler.utils';
 
 @Component({
   selector: 'app-root',
@@ -21,9 +22,15 @@ export class AppComponent {
   getCurUser() : string {
     return localStorage.getItem(AuthConsts.LOCAL_STORAGE_USER);
   }
+  
   isLogged() : boolean {
-    return localStorage.getItem(AuthConsts.LOCAL_STORAGE_TOKEN) != null &&
-    localStorage.getItem(AuthConsts.LOCAL_STORAGE_TOKEN) != 'null'
+    try {
+      return localStorage.getItem(AuthConsts.LOCAL_STORAGE_TOKEN) != null &&
+      localStorage.getItem(AuthConsts.LOCAL_STORAGE_TOKEN) != 'null'
+    } catch (err) {
+      CookieHandler.init();
+      return false;
+    }
   }
 
   disconnect() : void {

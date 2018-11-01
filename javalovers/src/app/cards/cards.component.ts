@@ -16,6 +16,8 @@ export class CardsComponent implements OnInit {
 
   comments : Array<Comment> = [];
   displayedComments : Array<Comment> = [];
+  loading : boolean = false;
+  nodata : boolean = false;
   pager : any = {
     totalItems: 0,
     currentPage: 1,
@@ -31,10 +33,14 @@ export class CardsComponent implements OnInit {
   constructor(private commentService : CommentsService, private pagerService : PagerService) { }
 
   ngOnInit() {
+    this.loading = true;
     this.commentService.getComments().subscribe((res) => {
       this.comments = res.slice().reverse();
       this.setPage(1);
+      this.loading = false;
     }, (err) => {
+      this.nodata = true;
+      this.loading = false;
       alert('Problem occurs with the server -- status : ' + err.status);
     })
   }
@@ -81,7 +87,7 @@ export class CardsComponent implements OnInit {
       })
       this.setPage(this.pager.currentPage)
     }, (err) => {
-      alert('Problem occurs with the server -- status : ' + err.status);
+      alert('a problem occurred with the server -- status : ' + err.status);
     })
   }
 
