@@ -58,9 +58,8 @@ paths:
       responses:
         '201':
           description: successful operation
-          headers:
-            Location:
-              type: string
+          schema:
+            $ref: '#/definitions/Comment'
         '400':
           description: the received object does not correspond to the expected resource
     get:

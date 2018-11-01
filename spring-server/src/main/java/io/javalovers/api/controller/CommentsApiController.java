@@ -42,7 +42,8 @@ public class CommentsApiController implements CommentsApi {
         this.request = request;
     }
 
-    public ResponseEntity<Void> addComment(@ApiParam(value = "Comment to add" ,required=true )  @Valid @RequestBody Comment body) {
+    public ResponseEntity<Comment> addComment(@ApiParam(value = "Comment to add" ,required=true )
+                                              @Valid @RequestBody Comment body) {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             body.setDate(OffsetDateTime.now());
@@ -50,17 +51,14 @@ public class CommentsApiController implements CommentsApi {
 
             if(newComment == null) {
                 // Probably a problem with the database (status offline f.ex)
-                return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
+                return new ResponseEntity<Comment>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
 
-            try {
-                return ResponseEntity.created(new URI("/comments/" + newComment.getId())).build();
-            } catch (URISyntaxException e) {
-                e.printStackTrace();
-            }
+            return new ResponseEntity<Comment>(CommentMapper.INSTANCE.commentEntityToComment(newComment),
+                    HttpStatus.CREATED);
         }
 
-        return new ResponseEntity<Void>(HttpStatus.NOT_ACCEPTABLE);
+        return new ResponseEntity<Comment>(HttpStatus.NOT_ACCEPTABLE);
     }
 
     @Override
@@ -78,7 +76,8 @@ public class CommentsApiController implements CommentsApi {
         return new ResponseEntity<Void>(HttpStatus.NOT_ACCEPTABLE);
     }
 
-    public ResponseEntity<Comment> getCommentById(@ApiParam(value = "The comment that needs to be fetched.",required=true) @PathVariable("id") Long id) {
+    public ResponseEntity<Comment> getCommentById(@ApiParam(value = "The comment that needs to be fetched.",required=true)
+                                                  @PathVariable("id") Long id) {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             CommentEntity comment = commentService.getCommentById(id);

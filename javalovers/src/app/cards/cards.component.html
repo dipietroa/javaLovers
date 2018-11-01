@@ -1,9 +1,27 @@
 <div class="row" style="margin-right: auto; margin-left: auto; padding-top: 10px;">
-  <div class="card text-white bg-dark mb-3" style="max-width: 40rem; min-width: 20rem; width: 100%" *ngFor="let comment of comments">
-    <div class="card-header">{{ displayDate(comment.date) }}</div>
+  <div class="card text-white bg-dark mb-3" style="max-width: 40rem; min-width: 20rem; width: 100%" 
+    *ngFor="let comment of displayedComments">
+    <div class="card-header">{{ 'posted on ' + displayDate(comment.date) + ' by ' + comment.name }}</div>
     <div class="card-body">
-      <h4 class="card-title">{{ comment.name }}</h4>
       <p class="card-text">{{ comment.text }}</p>
     </div>
   </div>
+  <!-- pager -->
+  <ul *ngIf="pager.pages && pager.pages.length > 1" class="pagination">
+    <li class="page-item" [ngClass]="{disabled:pager.currentPage === 1}">
+        <a class="page-link" (click)="setPage(1)">Début</a>
+    </li>
+    <li class="page-item" [ngClass]="{disabled:pager.currentPage === 1}">
+        <a class="page-link" (click)="setPage(pager.currentPage - 1)">&laquo;</a>
+    </li>
+    <li class="page-item" *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+        <a class="page-link" (click)="setPage(page)">{{page}}</a>
+    </li>
+    <li class="page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+        <a class="page-link" (click)="setPage(pager.currentPage + 1)">&raquo;</a>
+    </li>
+    <li class="page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+        <a class="page-link" (click)="setPage(pager.totalPages)">Fin</a>
+    </li>
+  </ul>
 </div>

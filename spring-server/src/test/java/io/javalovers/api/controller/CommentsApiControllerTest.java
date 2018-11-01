@@ -146,8 +146,7 @@ public class CommentsApiControllerTest {
         mockMvc.perform(post("/comments").headers(httpHeaders)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(comment)))
-                .andExpect(status().isCreated())
-                .andExpect(header().string("Location", "/comments/" + commentEntity.getId()));
+                .andExpect(status().isCreated());
         verify(commentService, times(1)).addComment(any());
         verifyNoMoreInteractions(commentService);
     }

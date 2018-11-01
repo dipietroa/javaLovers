@@ -1,7 +1,9 @@
 .custom-1 {
-  background-color: #3f3f3f
+  background-color: #3f3f3f;
+  min-height: 100%;
 }
 
 .custom-2 {
-  background-color: #000000
+  background-color: #000000;
+  min-height: 100%;
 }

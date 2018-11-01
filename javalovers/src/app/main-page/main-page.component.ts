@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { CommentsService } from '../api/comments.service';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Comment } from '../model/comment'
+import { CardsComponent } from '../cards/cards.component';
 
 @Component({
   selector: 'app-main-page',
@@ -9,11 +9,16 @@ import { Comment } from '../model/comment'
 })
 export class MainPageComponent implements OnInit {
 
+  @ViewChild(CardsComponent) cards : CardsComponent;
 
   constructor() { }
 
   ngOnInit() {
 
+  }
+
+  addNewCard(comment : Comment) : void {
+    this.cards.addCard(comment);
   }
 
 }

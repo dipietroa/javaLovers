@@ -1,6 +1,9 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary nav-custom" 
+    style="position: fixed; z-index: 10000; width: 100%; padding: 10px 10px;">
   <a class="navbar-brand" href="#"><i class="fab fa-java"></i> LOVERS</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+  <button class="navbar-toggler" type="button" data-toggle="collapse"
+          data-target="#navbarColor01" aria-controls="navbarColor01" 
+          aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
 
@@ -12,5 +15,6 @@
     </ul>
   </div>
 </nav>
-
-<router-outlet></router-outlet>
+<div style="padding-top: 60.88px; height: 100%; background-color: black;">
+  <router-outlet></router-outlet>
+</div>

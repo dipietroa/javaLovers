@@ -1,7 +1,8 @@
-<div class="row" style="margin-right: 0px; margin-left: 0px;">
-  <div class="col-xl-6 col-sm-6 mb-3 custom-1">
+<div class="row" style="margin-right: 0px; margin-left: 0px; min-height: 100%">
+  <div class="col-xl-6 col-sm-6 custom-1">
+    <app-comments-form (saved)="addNewCard($event)"></app-comments-form>
   </div>
-  <div class="col-xl-6 col-sm-6 mb-3 custom-2">
+  <div class="col-xl-6 col-sm-6 custom-2">
     <app-cards></app-cards>
   </div>
 </div>
