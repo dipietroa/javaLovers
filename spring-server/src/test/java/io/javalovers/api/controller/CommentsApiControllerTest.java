@@ -1,8 +1,8 @@
 package io.javalovers.api.controller;
 
 import io.javalovers.entity.CommentEntity;
-import io.javalovers.mapper.CommentMapper;
 import io.javalovers.model.Comment;
+import io.javalovers.model.Credentials;
 import io.javalovers.service.CommentService;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,8 +13,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +28,7 @@ import static org.hamcrest.core.Is.is;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
@@ -37,6 +41,9 @@ public class CommentsApiControllerTest {
     @MockBean
     private CommentService commentService;
 
+    @MockBean
+    private AuthenticationManager authenticationManager;
+
     HttpHeaders httpHeaders = new HttpHeaders();
     private CommentEntity commentEntity = new CommentEntity();
     private List<CommentEntity> commentEntities = new ArrayList<>();
@@ -44,6 +51,25 @@ public class CommentsApiControllerTest {
     private static String COM_NAME = "test";
     private static String COM_TXT = "test1";
     private static Long COM_ID = 1L;
+    Credentials usr = new Credentials();
+
+    private String getToken() throws Exception {
+        when(authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                usr.getUsername(), usr.getPassword())))
+                .thenReturn(new UsernamePasswordAuthenticationToken(usr.getUsername(), usr.getPassword()));
+
+        // Get a JWT for secured endpoints
+        ResultActions result = mockMvc.perform(post("/auth").headers(httpHeaders)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(usr)))
+                .andExpect(status().isOk())
+                .andExpect(header().exists("authorization"));
+        verify(authenticationManager, times(1))
+                .authenticate(new UsernamePasswordAuthenticationToken(usr.getUsername(), usr.getPassword()));
+        verifyNoMoreInteractions(authenticationManager);
+
+        return result.andReturn().getResponse().getHeader("Authorization");
+    }
 
     @Before
     public void setUp() {
@@ -53,6 +79,8 @@ public class CommentsApiControllerTest {
         commentEntity.setName(COM_NAME);
         commentEntity.setComment(COM_TXT);
         commentEntities.add(commentEntity);
+        usr.setPassword("test");
+        usr.setUsername("test");
 
         httpHeaders.add("Accept","application/json");
     }
@@ -197,6 +225,83 @@ public class CommentsApiControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(comment)))
                 .andExpect(status().isNotAcceptable());
+    }
+
+    /**
+     * Testing DELETE on /comments/{id} endpoint. Expected behaviour is to get a 200 status code when
+     * the focused comment has been deleted
+     *
+     * @throws Exception
+     */
+    @Test
+    public void test_delete_comment_by_id_success() throws Exception {
+        httpHeaders.set("Authorization", getToken());
+        when(commentService.deleteCommentById(1L)).thenReturn(commentEntity);
+        mockMvc.perform(delete("/comments/1").headers(httpHeaders)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+        verify(commentService, times(1)).deleteCommentById(1L);
+        verifyNoMoreInteractions(commentService);
+    }
+
+    /**
+     * Testing DELETE on /comments/{id} endpoint. Expected behaviour is to get a 404 status code when
+     * the focused comment doesn't exist
+     *
+     * @throws Exception
+     */
+    @Test
+    public void test_delete_comment_by_id_not_found() throws Exception {
+        httpHeaders.set("Authorization", getToken());
+        when(commentService.deleteCommentById(1L)).thenReturn(null);
+        mockMvc.perform(delete("/comments/1").headers(httpHeaders)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+        verify(commentService, times(1)).deleteCommentById(1L);
+        verifyNoMoreInteractions(commentService);
+    }
+
+    /**
+     * Testing DELETE on /comments/{id} endpoint. Expected behaviour is to get a 406 status code when header
+     * Accept is not expected
+     *
+     * @throws Exception
+     */
+    @Test
+    public void test_delete_comment_by_id_not_acceptable() throws Exception {
+        httpHeaders.set("Authorization", getToken());
+        httpHeaders.set("Accept", "application/xml");
+        mockMvc.perform(delete("/comments/1").headers(httpHeaders)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotAcceptable());
+    }
+
+    /**
+     * Testing DELETE on /comments/{id} endpoint. Expected behaviour is to get a 401 status code when header
+     * Authorization does not exist
+     *
+     * @throws Exception
+     */
+    @Test
+    public void test_delete_comment_by_id_unauthorized() throws Exception {
+        mockMvc.perform(delete("/comments/1").headers(httpHeaders)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isUnauthorized());
+    }
+
+    /**
+     * Testing DELETE on /comments/{id} endpoint. Expected behaviour is to get a 401 status code when header
+     * Authorization contains an invalid JWT
+     *
+     * @throws Exception
+     */
+    @Test
+    public void test_delete_comment_by_id_unauthorized_invalid_jwt() throws Exception {
+        httpHeaders.set("Authorization", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c");
+        httpHeaders.set("Accept", "application/xml");
+        mockMvc.perform(delete("/comments/1").headers(httpHeaders)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isUnauthorized());
     }
 
 }
