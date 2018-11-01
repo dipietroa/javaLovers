@@ -46,6 +46,8 @@ export class CommentsFormComponent implements OnInit {
     let toSend : Comment = this.commentForm.value;
     this.commentsService.addComment(toSend).subscribe((res) => {
       this.saved.emit(res);
+      this.commentForm.get("name").setValue("");
+      this.commentForm.get("text").setValue("");
       this.isSending = false;
     }, (err) => {
       alert('Problem occurs with the server -- status : ' + err.status);
