@@ -11,7 +11,8 @@ import org.mapstruct.factory.Mappers;
 public interface CommentMapper {
     CommentMapper INSTANCE = Mappers.getMapper(CommentMapper.class);
 
-    @Mappings({ @Mapping(target = "text", source = "entity.comment"),
+    @Mappings({ @Mapping(target = "id", source = "entity.id"),
+            @Mapping(target = "text", source = "entity.comment"),
             @Mapping(target = "name", source = "entity.name"),
             @Mapping(target = "date", source = "entity.dateTime")})
     Comment commentEntityToComment(CommentEntity entity);

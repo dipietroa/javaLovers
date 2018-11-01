@@ -1,0 +1,45 @@
+<div class="translucid">
+  <div class="custom-modal">
+    <div class="modal-header float-right">
+        <a href="#" (click)="close()"><i class="fas fa-times-circle red"></i></a>
+    </div>
+    <div class="modal-content">
+      <!-- form here-->
+      <!-- hide when visibility return false or when question is hidden -->
+      <form class="form-group row" [formGroup]="loginForm">
+  
+        <!-- Attached label -->
+        <label [attr.for]="username" class="col-sm-3 col-form-label" style="margin-top:10px">
+          Username
+        </label>
+        <div class="col-sm-8">
+          <input class="form-control form-control-sm top-margin-fields" 
+            formControlName="username" style="margin-top:10px">
+        </div>
+        <label [attr.for]="password" class="col-sm-3 col-form-label" style="margin-top:10px">
+          Password
+        </label>
+        <div class="col-sm-8">
+          <input type="password" class="form-control form-control-sm top-margin-fields"
+                    formControlName="password" style="margin-top:10px">
+        </div>
+      </form>
+      
+      <div class="col-sm-11" style="margin-left:10px;">
+        <button (click)="submit()" id="load" style="float: right;"
+                [className]="loginForm.valid && !isSending ? 'btn btn-success btn-sm btn-margin' : 'btn btn-secondary btn-sm btn-margin'"
+                [disabled]="!loginForm.valid || isSending" [attr.loading]="isSending? '' : null">
+          <div *ngIf="isSending">
+            Checking <i class="fas fa-circle-notch fa-spin" style="color:white; font-size: 13px;"></i>
+          </div>
+          <div *ngIf="!isSending">
+            Login
+          </div>
+        </button>
+      </div>
+
+      <p *ngIf="curLog">{{ curLog }}</p>
+    </div>
+  </div>
+</div>
+  

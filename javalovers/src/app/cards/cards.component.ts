@@ -2,6 +2,7 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommentsService } from '../api/comments.service';
 import { Comment } from '../model/comment';
 import { PagerService } from '../services/pager.service';
+import { AuthConsts } from '../login/consts/auth.consts';
 
 @Component({
   selector: 'app-cards',
@@ -34,7 +35,7 @@ export class CardsComponent implements OnInit {
       this.comments = res.slice().reverse();
       this.setPage(1);
     }, (err) => {
-      alert('Problem when connecting to the server -- status : ' + err.status)
+      alert('Problem occurs with the server -- status : ' + err.status)
     })
   }
 
@@ -66,6 +67,11 @@ export class CardsComponent implements OnInit {
 
     // get current page of items
     this.displayedComments = this.comments.slice(this.pager.startIndex, this.pager.endIndex + 1);
+  }
+
+  isLogged() : boolean {
+    return localStorage.getItem(AuthConsts.LOCAL_STORAGE_TOKEN) != null &&
+    localStorage.getItem(AuthConsts.LOCAL_STORAGE_TOKEN) != 'null' 
   }
 
 }

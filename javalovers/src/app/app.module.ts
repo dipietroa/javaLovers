@@ -10,6 +10,11 @@ import { HttpClientModule } from '@angular/common/http';
 import { CardsComponent } from './cards/cards.component';
 import { CommentsFormComponent } from './comments-form/comments-form.component';
 import { ReversePipe } from './pipes/reverse.pipe';
+import { LoginComponent } from './login/login.component';
+import { AuthService } from './api/auth.service';
+import { HTTP_INTERCEPTORS  } from '@angular/common/http';
+import { AuthInterceptor } from './login/interceptors/authentication.interceptor';
+import { RefreshTokenInterceptor } from './login/interceptors/refreshToken.interceptor';
 
 @NgModule({
   declarations: [
@@ -17,7 +22,8 @@ import { ReversePipe } from './pipes/reverse.pipe';
     MainPageComponent,
     CardsComponent,
     CommentsFormComponent,
-    ReversePipe
+    ReversePipe,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -26,7 +32,10 @@ import { ReversePipe } from './pipes/reverse.pipe';
     ReactiveFormsModule
   ],
   providers: [
-    CommentsService
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: RefreshTokenInterceptor, multi: true },
+    CommentsService,
+    AuthService
   ],
   bootstrap: [AppComponent]
 })

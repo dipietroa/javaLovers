@@ -1,0 +1,45 @@
+.translucid {
+  background: none repeat scroll 0 0;
+  background-color: rgba(0,0,0,0.5);
+  position: fixed;
+  z-index: 100;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.custom-modal {
+  background-color:rgba(39, 39, 39, 0.877);
+  opacity: 1;
+  position:absolute;
+  margin-left:30%;
+  margin-right:30%;
+  margin-top:15%;
+  width: 40%;
+  min-width: 100px;
+  height: 200px;
+  border-radius: 5px;
+}
+
+.modal-header {
+  opacity: 1;
+  border: 0;
+}
+
+.modal-content {
+  opacity: 1;
+  border:0;
+  padding-left: 10px;
+  background-color:rgba(39, 39, 39, 0.877);
+}
+
+.bottom-right{
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+.red {
+  color: rgba(255, 0, 0, 0.548)
+}

@@ -42,7 +42,7 @@ export class CommentsFormComponent implements OnInit {
       this.saved.emit(res);
       this.isSending = false;
     }, (err) => {
-      alert('Error when sending the request to the server. Status code : ' + err.status);
+      alert('Problem occurs with the server -- status : ' + err.status);
       this.isSending = false;
     })
   }
