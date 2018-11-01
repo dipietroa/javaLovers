@@ -1,22 +1,24 @@
 <div class="row" style="margin-right: auto; margin-left: auto; padding-top: 10px;">
-  <div class="card text-white bg-dark mb-3" style="max-width: 40rem; min-width: 20rem; width: 100%" 
-    *ngFor="let comment of displayedComments">
-    <div class="card-header">
-      <div style="float: right;" *ngIf="isLogged()">
-        <a href="#" (click)="deleteComment(comment.id)"><i class="fas fa-trash-alt" style="float: right;"></i></a>
+  <div style="min-height: 540px; width:100%">
+    <div class="card text-white bg-dark mb-3" style="max-width: 40rem; min-width: 20rem; width: 100%" 
+      *ngFor="let comment of displayedComments">
+      <div class="card-header">
+        <div style="float: right;" *ngIf="isLogged()">
+          <a href="#" (click)="deleteComment(comment.id)"><i class="fas fa-trash-alt" style="float: right;"></i></a>
+        </div>
+        <div class="row">
+          {{ 'posted on ' + displayDate(comment.date) + ' by' }} <p class="green">{{ comment.name }}</p>
+        </div>
       </div>
-      <div class="row">
-        {{ 'posted on ' + displayDate(comment.date) + ' by' }} <p class="green">{{ comment.name }}</p>
+      <div class="card-body">
+        <p class="card-text">{{ comment.text }}</p>
       </div>
-    </div>
-    <div class="card-body">
-      <p class="card-text">{{ comment.text }}</p>
     </div>
   </div>
   <!-- pager -->
   <ul *ngIf="pager.pages && pager.pages.length > 1" class="pagination">
     <li class="page-item" [ngClass]="{disabled:pager.currentPage === 1}">
-        <a class="page-link" (click)="setPage(1)">Début</a>
+        <a class="page-link" (click)="setPage(1)">Start</a>
     </li>
     <li class="page-item" [ngClass]="{disabled:pager.currentPage === 1}">
         <a class="page-link" (click)="setPage(pager.currentPage - 1)">&laquo;</a>
@@ -28,7 +30,7 @@
         <a class="page-link" (click)="setPage(pager.currentPage + 1)">&raquo;</a>
     </li>
     <li class="page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
-        <a class="page-link" (click)="setPage(pager.totalPages)">Fin</a>
+        <a class="page-link" (click)="setPage(pager.totalPages)">End</a>
     </li>
   </ul>
 </div>

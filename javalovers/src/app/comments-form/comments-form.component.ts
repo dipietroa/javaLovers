@@ -35,6 +35,12 @@ export class CommentsFormComponent implements OnInit {
     
   }
 
+  remainingChars() : string {
+    let remaining = this.MAX_TEXT - this.commentForm.value.text.length;
+    return remaining < 0 ? 'please delete ' + -remaining + ' characters.'
+                         :  remaining +  ' characters remaining.'; 
+  }
+
   submit() : void {
     this.isSending = true;
     let toSend : Comment = this.commentForm.value;

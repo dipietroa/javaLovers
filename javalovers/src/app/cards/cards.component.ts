@@ -35,7 +35,7 @@ export class CardsComponent implements OnInit {
       this.comments = res.slice().reverse();
       this.setPage(1);
     }, (err) => {
-      alert('Problem occurs with the server -- status : ' + err.status)
+      alert('Problem occurs with the server -- status : ' + err.status);
     })
   }
 
@@ -72,6 +72,17 @@ export class CardsComponent implements OnInit {
   isLogged() : boolean {
     return localStorage.getItem(AuthConsts.LOCAL_STORAGE_TOKEN) != null &&
     localStorage.getItem(AuthConsts.LOCAL_STORAGE_TOKEN) != 'null' 
+  }
+
+  deleteComment(id : number) : void {
+    this.commentService.deleteCommentById(id).subscribe((res) => {
+      this.comments = this.comments.filter((com) => {
+        return com.id != id;
+      })
+      this.setPage(this.pager.currentPage)
+    }, (err) => {
+      alert('Problem occurs with the server -- status : ' + err.status);
+    })
   }
 
 }
